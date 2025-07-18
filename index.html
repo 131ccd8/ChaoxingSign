@@ -1,0 +1,600 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>登录页面</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', 'Microsoft YaHei', sans-serif
+        }
+
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px
+        }
+
+        .login-container {
+            background-color: #fff;
+            border-radius: 20px;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+            width: 100%;
+            max-width: 400px;
+            padding: 40px;
+            position: relative;
+            overflow: hidden
+        }
+
+        .login-header {
+            text-align: center;
+            margin-bottom: 30px
+        }
+
+        .login-header h1 {
+            font-size: 28px;
+            color: #333;
+            margin-bottom: 10px;
+            font-weight: 600
+        }
+
+        .login-header p {
+            font-size: 16px;
+            color: #666
+        }
+
+        .input-group {
+            margin-bottom: 20px
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 14px 15px;
+            margin-bottom: 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border-color 0.3s
+        }
+
+        .input-group input:focus {
+            outline: none;
+            border-color: #2575fc;
+            box-shadow: 0 0 0 2px rgba(37, 117, 252, 0.2)
+        }
+
+        .remember-forgot {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            font-size: 14px
+        }
+
+        .remember-me {
+            display: flex;
+            align-items: center
+        }
+
+        .remember-me input {
+            margin-right: 8px
+        }
+
+        .forgot-password a {
+            color: #2575fc;
+            text-decoration: none;
+            transition: color 0.3s
+        }
+
+        .forgot-password a:hover {
+            color: #6a11cb;
+            text-decoration: underline
+        }
+
+        .login-button {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(to right, #6a11cb, #2575fc);
+            border: none;
+            border-radius: 8px;
+            color: white;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.3s, box-shadow 0.3s
+        }
+
+        .login-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(37, 117, 252, 0.4)
+        }
+
+        .login-button:active {
+            transform: translateY(0)
+        }
+
+        .signup-link {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 14px;
+            color: #888
+        }
+
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.6);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease
+        }
+
+        .modal-overlay.active {
+            opacity: 1;
+            visibility: visible
+        }
+
+        .modal-content {
+            background: #fff;
+            border-radius: 12px;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.25);
+            width: 90%;
+            max-width: 400px;
+            transform: translateY(20px);
+            transition: transform 0.4s ease;
+            position: relative;
+            overflow: hidden
+        }
+
+        .modal-overlay.active .modal-content {
+            transform: translateY(0)
+        }
+
+        .modal-header {
+            padding: 20px 20px 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #eee
+        }
+
+        .modal-header h3 {
+            font-size: 20px;
+            font-weight: 600;
+            color: #333
+        }
+
+        .close-btn {
+            font-size: 28px;
+            color: #999;
+            cursor: pointer;
+            transition: color 0.3s;
+            background: none;
+            border: none;
+            line-height: 1;
+            padding: 0 10px
+        }
+
+        .close-btn:hover {
+            color: #333
+        }
+
+        .modal-body {
+            padding: 20px
+        }
+
+        .modal-body p {
+            font-size: 16px;
+            color: #555;
+            line-height: 1.6;
+            text-align: center
+        }
+
+        .modal-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+        }
+
+        .success .modal-icon {
+            background: rgba(76, 175, 80, 0.2);
+            color: #4CAF50;
+        }
+
+        .error .modal-icon {
+            background: rgba(244, 67, 54, 0.2);
+            color: #F44336;
+        }
+
+        .warning .modal-icon {
+            background: rgba(255, 152, 0, 0.2);
+            color: #FF9800;
+        }
+
+        .modal-icon svg {
+            width: 30px;
+            height: 30px;
+        }
+
+        @keyframes check {
+            to {
+                transform: rotate(45deg) scale(1);
+            }
+        }
+
+        @keyframes cross1 {
+            to {
+                transform: rotate(45deg) scale(1);
+            }
+        }
+
+        @keyframes cross2 {
+            to {
+                transform: rotate(-45deg) scale(1);
+            }
+        }
+
+        .modal-footer {
+            padding: 15px 20px;
+            display: flex;
+            justify-content: center;
+            border-top: 1px solid #eee
+        }
+
+        .modal-footer button {
+            padding: 10px 25px;
+            border-radius: 8px;
+            border: none;
+            background: linear-gradient(to right, #6a11cb, #2575fc);
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+            transition: opacity 0.3s
+        }
+
+        .modal-footer button:hover {
+            opacity: 0.9
+        }
+
+        @media (max-width:480px) {
+            .login-container {
+                padding: 30px;
+                width: 95%
+            }
+
+            .login-header h1 {
+                font-size: 24px
+            }
+
+            .input-group input {
+                padding: 12px 15px
+            }
+
+            .remember-forgot {
+                flex-direction: column;
+                align-items: flex-start
+            }
+
+            .forgot-password {
+                margin-top: 10px
+            }
+
+            .modal-content {
+                width: 95%
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <div class="login-header">
+            <h1>欢迎回来</h1>
+            <p>请登录您的超星账户以继续</p>
+        </div>
+        <form id="loginForm">
+            <div class="input-group">
+                <input type="text" id="username" placeholder="请输入用户名或邮箱" required>
+                <input type="password" id="password" placeholder="请输入密码" autocomplete="off" required>
+            </div>
+            <div class="remember-forgot">
+                <div class="remember-me">
+                    <input type="checkbox" checked='true' id="remember">
+                    <label for="remember">记住我</label>
+                </div>
+                <div class="forgot-password">
+                    <a href="#">忘记密码?</a>
+                </div>
+            </div>
+            <button type="button" class="login-button" id="loginButton">登 录</button>
+            <div class="signup-link">Copyright © 2025 Radius All Rights Reserved</div>
+        </form>
+    </div>
+
+    <!-- 弹窗组件 -->
+    <div class="modal-overlay" id="modalOverlay">
+        <div class="modal-content" id="modalContent">
+            <div class="modal-header">
+                <h3 id="modalTitle">提示</h3>
+                <button class="close-btn" id="closeModalBtn">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="modal-icon" id="modalIcon">!</div>
+                <p id="modalMessage">这是一条提示消息</p>
+            </div>
+            <div class="modal-footer">
+                <button id="confirmModalBtn">确定</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        /**
+         * 登录模块
+         */
+        const LoginModule = (() => {
+            // DOM元素
+            const elements = {
+                loginForm: document.getElementById('loginForm'),
+                usernameInput: document.getElementById('username'),
+                passwordInput: document.getElementById('password'),
+                rememberMe: document.getElementById('remember'),
+                loginButton: document.getElementById('loginButton')
+            };
+
+            // 初始化函数
+            const init = () => {
+                loadSavedLogin();
+                addEventListeners();
+            };
+
+            // 加载保存的登录信息
+            const loadSavedLogin = () => {
+                const savedLogin = localStorage.getItem('chaoxingLogin');
+                if (savedLogin) {
+                    try {
+                        const loginData = JSON.parse(savedLogin);
+                        if (loginData.username && loginData.password) {
+                            elements.usernameInput.value = loginData.username;
+                            elements.passwordInput.value = loginData.password;
+                            // 自动登录
+                            setTimeout(() => {
+                                login(true);
+                            }, 500);
+                        }
+                    } catch (e) {
+                        console.error('解析保存的登录信息失败:', e);
+                        localStorage.removeItem('chaoxingLogin');
+                    }
+                }
+            };
+
+            // 添加事件监听
+            const addEventListeners = () => {
+                elements.loginButton.addEventListener('click', () => login());
+                elements.loginForm.addEventListener('submit', (e) => {
+                    e.preventDefault();
+                    login();
+                });
+            };
+
+            // 登录函数
+            const login = async (isAutoLogin = false) => {
+                const username = elements.usernameInput.value.trim();
+                const password = elements.passwordInput.value.trim();
+
+                // 验证输入
+                if (!username || !password) {
+                    ModalModule.show('error', '输入错误', '用户名和密码不能为空');
+                    return;
+                }
+
+                // 更新按钮状态
+                updateLoginButtonState(isAutoLogin ? '自动登录中...' : '登录中...', true);
+
+                try {
+                    const formData = new FormData();
+                    formData.append('user', username);
+                    formData.append('pass', password);
+                    
+                    const response = await fetch('api/login.php', {
+                        method: 'POST',
+                        body: formData
+                    });
+                    
+                    const data = await response.json();
+                    if (data.status === true) {
+                        handleLoginSuccess(username, password);
+                    } else {
+                        handleLoginFailure(username, data.message);
+                    }
+                } catch (error) {
+                    handleLoginError(error);
+                } finally {
+                    resetLoginButton();
+                }
+            };
+
+            // 更新登录按钮状态
+            const updateLoginButtonState = (text, disabled) => {
+                elements.loginButton.disabled = disabled;
+                elements.loginButton.textContent = text;
+            };
+
+            // 重置登录按钮
+            const resetLoginButton = () => {
+                updateLoginButtonState('登 录', false);
+            };
+
+            // 处理登录成功
+            const handleLoginSuccess = (username, password) => {
+                // 如果勾选了"记住我"，则保存用户名和密码
+                if (elements.rememberMe.checked) {
+                    const loginData = { username, password };
+                    localStorage.setItem('chaoxingLogin', JSON.stringify(loginData));
+                } else {
+                    // 如果没有勾选"记住我"，则清除保存的登录信息
+                    localStorage.removeItem('chaoxingLogin');
+                }
+
+                ModalModule.show('success', '登录成功', '欢迎回来，即将跳转到首页...');
+                setTimeout(() => {
+                    window.location.href = 'home.html';
+                }, 1000);
+            };
+
+            // 处理登录失败
+            const handleLoginFailure = (username, errorMessage) => {
+                const errorMsg = errorMessage || '登录失败，请检查凭证';
+                ModalModule.show('error', '登录失败', data.message);
+
+                // 登录失败时清除保存的密码
+                const savedLogin = localStorage.getItem('chaoxingLogin');
+                if (savedLogin) {
+                    try {
+                        const loginData = JSON.parse(savedLogin);
+                        if (loginData.username === username) {
+                            localStorage.removeItem('chaoxingLogin');
+                        }
+                    } catch (e) {
+                        console.error('解析保存的登录信息失败:', e);
+                    }
+                }
+            };
+
+            // 处理登录错误
+            const handleLoginError = (error) => {
+                ModalModule.show('error', '网络错误', '连接服务器失败: ' + error.message);
+            };
+
+            // 公开的方法
+            return {
+                init
+            };
+        })();
+
+        /**
+         * 弹窗模块
+         */
+        const ModalModule = (() => {
+            // DOM元素
+            const elements = {
+                modalOverlay: document.getElementById('modalOverlay'),
+                modalContent: document.getElementById('modalContent'),
+                modalTitle: document.getElementById('modalTitle'),
+                modalIcon: document.getElementById('modalIcon'),
+                modalMessage: document.getElementById('modalMessage'),
+                closeModalBtn: document.getElementById('closeModalBtn'),
+                confirmModalBtn: document.getElementById('confirmModalBtn')
+            };
+
+            // 初始化函数
+            const init = () => {
+                addEventListeners();
+            };
+
+            // 添加事件监听
+            const addEventListeners = () => {
+                elements.closeModalBtn.addEventListener('click', close);
+                elements.confirmModalBtn.addEventListener('click', close);
+                elements.modalOverlay.addEventListener('click', (e) => {
+                    if (e.target === elements.modalOverlay) {
+                        close();
+                    }
+                });
+                
+                // 按ESC键关闭弹窗
+                document.addEventListener('keydown', (e) => {
+                    if (e.key === 'Escape' && elements.modalOverlay.classList.contains('active')) {
+                        close();
+                    }
+                });
+            };
+
+            // 显示弹窗
+            const show = (type, title, message) => {
+                // 清除之前的样式
+                elements.modalContent.classList.remove('success', 'error', 'warning');
+
+                // 设置图标
+                let iconHtml = '';
+                switch (type) {
+                    case 'success':
+                        elements.modalContent.classList.add('success');
+                        iconHtml = `
+                            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M9 12L11 14L15 10M21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12Z" 
+                                      stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        `;
+                        break;
+                    case 'error':
+                        elements.modalContent.classList.add('error');
+                        iconHtml = `
+                            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M12 8V12M12 16H12.01M21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12Z" 
+                                      stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        `;
+                        break;
+                    case 'warning':
+                        elements.modalContent.classList.add('warning');
+                        iconHtml = `
+                            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M12 9V11M12 15H12.01M5.07183 19H18.9282C20.4678 19 21.4301 17.3333 20.6603 16L13.7321 4C12.9623 2.66667 11.0378 2.66667 10.268 4L3.33978 16C2.56998 17.3333 3.53223 19 5.07183 19Z" 
+                                      stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        `;
+                        break;
+                    default:
+                        iconHtml = `
+                            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M12 8V12M12 16H12.01M21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12Z" 
+                                      stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        `;
+                }
+
+                // 更新DOM
+                elements.modalIcon.innerHTML = iconHtml;
+                elements.modalTitle.textContent = title;
+                elements.modalMessage.textContent = message;
+                elements.modalOverlay.classList.add('active');
+            };
+
+            // 关闭弹窗
+            const close = () => {
+                elements.modalOverlay.classList.remove('active');
+            };
+
+            // 公开的方法
+            return {
+                init,
+                show,
+                close
+            };
+        })();
+
+        // 初始化应用
+        document.addEventListener('DOMContentLoaded', () => {
+            LoginModule.init();
+            ModalModule.init();
+        });
+    </script>
+</body>
+</html>

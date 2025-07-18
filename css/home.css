@@ -1,0 +1,398 @@
+:root {
+	--primary-color: #3498db;
+	--secondary-color: #2980b9;
+	--accent-color: #e74c3c;
+	--light-color: #ecf0f1;
+	--dark-color: #2c3e50;
+	--text-color: #333;
+	--text-light: #7f8c8d;
+	--shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+	--border-radius: 8px;
+}
+
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+}
+
+body {
+	font-family: 'Noto Sans SC', sans-serif;
+	background-color: #f5f7fa;
+	color: var(--text-color);
+	line-height: 1.6;
+}
+
+.container {
+	max-width: 1200px;
+	margin: 0 auto;
+	padding: 20px;
+}
+
+header {
+	background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+	color: white;
+	padding: 20px 0;
+	margin-bottom: 30px;
+	box-shadow: var(--shadow);
+	position: relative;
+	overflow: hidden;
+	border-radius: 15px;
+}
+
+footer {
+	text-align: center;
+	margin-top: 25px;
+	padding: 20px;
+	color: var(--text-light);
+	font-size: 14px;
+	width: 100%;
+}
+
+.header-content {
+	display: flex;
+	align-items: center;
+	padding: 0 30px;
+	position: relative;
+	z-index: 2;
+}
+
+.avatar {
+	width: 100px;
+	height: 100px;
+	border-radius: 50%;
+	border: 3px solid white;
+	object-fit: cover;
+	margin-right: 20px;
+	box-shadow: var(--shadow);
+}
+
+.user-info {
+	flex-grow: 1;
+}
+
+.user-info h1 {
+	font-size: 28px;
+	margin-bottom: 5px;
+	font-weight: 700;
+}
+
+.user-info p {
+	font-size: 16px;
+	opacity: 0.9;
+	margin-bottom: 5px;
+}
+
+.user-actions {
+	position: absolute;
+	right: 30px;
+	top: 50%;
+	transform: translateY(-50%);
+}
+
+.logout-btn {
+	background-color: rgba(255, 255, 255, 0.2);
+	color: white;
+	border: none;
+	padding: 8px 15px;
+	border-radius: 20px;
+	cursor: pointer;
+	display: flex;
+	align-items: center;
+	font-size: 14px;
+	transition: all 0.3s ease;
+}
+
+.logout-btn:hover {
+	background-color: rgba(255, 255, 255, 0.3);
+}
+
+.logout-btn i {
+	margin-right: 5px;
+}
+
+.main-content {
+	display: grid;
+	grid-template-columns: 1fr 2fr;
+	gap: 30px;
+}
+
+.sidebar {
+	background: white;
+	border-radius: var(--border-radius);
+	padding: 20px;
+	box-shadow: var(--shadow);
+}
+
+.sidebar-section {
+	margin-bottom: 25px;
+}
+
+.sidebar-title {
+	font-size: 18px;
+	font-weight: 500;
+	margin-bottom: 15px;
+	padding-bottom: 10px;
+	border-bottom: 1px solid #eee;
+	color: var(--dark-color);
+}
+
+.info-item {
+	display: flex;
+	margin-bottom: 15px;
+}
+
+.info-icon {
+	color: var(--primary-color);
+	margin-right: 10px;
+	font-size: 18px;
+	width: 24px;
+	text-align: center;
+}
+
+.info-content h4 {
+	font-size: 16px;
+	margin-bottom: 3px;
+}
+
+.info-content p {
+	font-size: 14px;
+	color: var(--text-light);
+}
+
+.content-area {
+	display: flex;
+	flex-direction: column;
+	gap: 30px;
+}
+
+.card {
+	background: white;
+	border-radius: var(--border-radius);
+	padding: 20px;
+	box-shadow: var(--shadow);
+}
+
+.card-header {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	margin-bottom: 20px;
+}
+
+.card-title {
+	font-size: 20px;
+	font-weight: 500;
+	color: var(--dark-color);
+}
+
+.card-more {
+	color: var(--primary-color);
+	text-decoration: none;
+	font-size: 14px;
+	display: flex;
+	align-items: center;
+}
+
+.card-more i {
+	margin-left: 5px;
+}
+
+.quick-links {
+	display: grid;
+	grid-template-columns: repeat(4, 1fr);
+	gap: 15px;
+}
+
+.link-item {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	text-align: center;
+	padding: 15px 10px;
+	border-radius: var(--border-radius);
+	transition: all 0.3s ease;
+	text-decoration: none;
+	color: var(--text-color);
+}
+
+.link-item:hover {
+	background-color: var(--light-color);
+	transform: translateY(-3px);
+}
+
+.link-icon {
+	width: 50px;
+	height: 50px;
+	background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+	border-radius: 50%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	margin-bottom: 10px;
+	color: white;
+	font-size: 20px;
+}
+
+.link-title {
+	font-size: 14px;
+	font-weight: 500;
+}
+
+/* 任务面板样式 */
+.task-controls {
+	display: flex;
+	gap: 10px;
+	margin-bottom: 15px;
+}
+
+.task-btn {
+	flex: 1;
+	padding: 10px;
+	border: none;
+	border-radius: var(--border-radius);
+	font-weight: 500;
+	cursor: pointer;
+	transition: all 0.3s ease;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.task-btn i {
+	margin-right: 8px;
+}
+
+.start-btn {
+	background-color: #2ecc71;
+	color: white;
+}
+
+.start-btn:hover {
+	background-color: #27ae60;
+}
+
+.stop-btn {
+	background-color: #e74c3c;
+	color: white;
+}
+
+.stop-btn:hover {
+	background-color: #c0392b;
+}
+
+.task-status {
+	background-color: var(--light-color);
+	border-radius: var(--border-radius);
+	padding: 15px;
+	min-height: 200px;
+	max-height: 300px;
+	overflow-y: auto;
+	font-size: 14px;
+	line-height: 1.5;
+}
+
+/* 日志条目样式 */
+.log-entry {
+	position: relative;
+	padding: 12px 15px;
+	margin-bottom: 8px;
+	border-radius: 8px;
+	background-color: #f8f9fa;
+	transition: all 0.3s ease;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.log-entry:hover {
+	background-color: #e9ecef;
+	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* 成功日志样式 - 绿色 */
+.log-success {
+	border-left: 0px solid #6c757d;
+}
+
+.log-success .message {
+	color: #6c757d;
+	font-weight: 500;
+}
+
+/* 默认日志样式 - 黑色 */
+.log-default {
+	border-left: 0px solid #6c757d;
+}
+
+.log-default .message {
+	color: #6c757d;
+}
+
+.delete-log-btn {
+	background-color: #dc3545;
+	color: white;
+	border: none;
+	padding: 6px 12px;
+	border-radius: 20px;
+	cursor: pointer;
+	font-size: 0.85em;
+	font-weight: 500;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	transition: all 0.2s ease;
+	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.delete-log-btn:hover {
+	background-color: #c82333;
+	transform: translateY(-1px);
+	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.01);
+}
+
+
+.delete-log-btn:hover {
+	opacity: 1;
+	background-color: rgba(220, 53, 69, 0.1);
+	transform: scale(1.1);
+}
+
+.delete-log-btn i {
+	font-size: 14px;
+	padding-top: 3px;
+	padding-right: 5px;
+}
+
+@media (max-width: 768px) {
+	.main-content {
+		grid-template-columns: 1fr;
+	}
+
+	.quick-links {
+		grid-template-columns: repeat(2, 1fr);
+	}
+
+	.header-content {
+		flex-direction: column;
+		text-align: center;
+		padding-bottom: 20px;
+	}
+
+	.avatar {
+		margin-right: 0;
+		margin-bottom: 15px;
+	}
+
+	.user-actions {
+		position: static;
+		transform: none;
+		margin-top: 15px;
+		text-align: center;
+	}
+
+	.task-controls {
+		flex-direction: column;
+	}
+}

@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>个人主页</title>
+		<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700&display=swap"
+			rel="stylesheet">
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+		<link rel="stylesheet" href="css/home.css">
+		<style>
+			.log-number {
+				display: inline-block;
+				min-width: 20px;
+				color: #28a745;
+				font-weight: bold;
+				margin-left: 8px;
+				text-align: right;
+				font-size: 15px;
+			}
+			/* 弹窗样式 */
+			.modal-overlay {
+				position: fixed;
+				top: 0;
+				left: 0;
+				right: 0;
+				bottom: 0;
+				background-color: rgba(0, 0, 0, 0.5);
+				display: flex;
+				justify-content: center;
+				align-items: center;
+				z-index: 1000;
+				opacity: 0;
+				visibility: hidden;
+				transition: all 0.3s ease;
+			}
+
+			.modal-overlay.active {
+				opacity: 1;
+				visibility: visible;
+			}
+
+			.modal-container {
+				background-color: #fff;
+				border-radius: 12px;
+				box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+				width: 90%;
+				max-width: 400px;
+				transform: translateY(20px);
+				transition: all 0.3s ease;
+			}
+
+			.modal-overlay.active .modal-container {
+				transform: translateY(0);
+			}
+
+			.modal-header {
+				padding: 20px;
+				border-bottom: 1px solid #eee;
+				display: flex;
+				justify-content: space-between;
+				align-items: center;
+			}
+
+			.modal-title {
+				font-size: 1.25rem;
+				font-weight: 600;
+				color: #333;
+				margin: 0;
+			}
+
+			.modal-close {
+				background: none;
+				border: none;
+				font-size: 1.5rem;
+				cursor: pointer;
+				color: #999;
+				transition: color 0.2s;
+			}
+
+			.modal-close:hover {
+				color: #333;
+			}
+
+			.modal-content {
+				padding: 20px;
+				color: #555;
+				line-height: 1.5;
+				text-align: center;
+			}
+
+			.modal-footer {
+				padding: 15px 20px;
+				border-top: 1px solid #eee;
+				display: flex;
+				justify-content: flex-end;
+				gap: 10px;
+			}
+
+			.modal-btn {
+				padding: 8px 16px;
+				border-radius: 6px;
+				font-weight: 500;
+				cursor: pointer;
+				transition: all 0.2s;
+			}
+
+			.modal-btn-cancel {
+				background-color: #f0f0f0;
+				color: #555;
+				border: 1px solid #ddd;
+			}
+
+			.modal-btn-cancel:hover {
+				background-color: #e5e5e5;
+			}
+
+			.modal-btn-confirm {
+				background-color: #4a6bdf;
+				color: white;
+				border: 1px solid #3a5bcf;
+			}
+
+			.modal-btn-confirm:hover {
+				background-color: #3a5bcf;
+			}
+
+			.modal-btn-danger {
+				background-color: #e74c3c;
+				color: white;
+				border: 1px solid #d43c2c;
+			}
+
+			.modal-btn-danger:hover {
+				background-color: #d43c2c;
+			}
+
+			/* 图标动画 */
+			.modal-icon {
+				font-size: 2rem;
+				text-align: center;
+				margin-bottom: 20px;
+			}
+
+			.modal-icon.warning {
+				color: #f39c12;
+			}
+
+			.modal-icon.danger {
+				color: #e74c3c;
+			}
+
+			.modal-icon.success {
+				color: #2ecc71;
+			}
+
+			.modal-icon.info {
+				color: #3498db;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="container">
+			<header>
+				<div class="header-content">
+					<img id="user-avatar" class="avatar" src="">
+					<div class="user-info">
+						<h1 id="user-name">加载中...</h1>
+						<p id="user-id">ID: 加载中...</p>
+						<p id="user-school">学校: 加载中...</p>
+					</div>
+					<div class="user-actions">
+						<button class="logout-btn" id="logout-button">
+							<i class="bi bi-box-arrow-right"></i> 退出登录
+						</button>
+					</div>
+				</div>
+			</header>
+
+			<div class="main-content">
+				<aside class="sidebar">
+					<div class="sidebar-section">
+						<h3 class="sidebar-title">个人信息</h3>
+						<div class="info-item">
+							<div class="info-icon">
+								<i class="bi bi-telephone"></i>
+							</div>
+							<div class="info-content">
+								<h4>联系电话</h4>
+								<p id="user-phone">加载中...</p>
+							</div>
+						</div>
+						<div class="info-item">
+							<div class="info-icon">
+								<i class="bi bi-envelope"></i>
+							</div>
+							<div class="info-content">
+								<h4>电子邮箱</h4>
+								<p id="user-email">未绑定</p>
+							</div>
+						</div>
+						<div class="info-item">
+							<div class="info-icon">
+								<i class="bi bi-person-badge"></i>
+							</div>
+							<div class="info-content">
+								<h4>学号/工号</h4>
+								<p id="user-studentcode">加载中...</p>
+							</div>
+						</div>
+						<div class="info-item">
+							<div class="info-icon">
+								<i class="bi bi-calendar-check"></i>
+							</div>
+							<div class="info-content">
+								<h4>注册时间</h4>
+								<p id="user-acttime">加载中...</p>
+							</div>
+						</div>
+					</div>
+
+					<div class="sidebar-section">
+						<h3 class="sidebar-title">账号绑定</h3>
+						<div class="info-item">
+							<div class="info-icon">
+								<i class="bi bi-book"></i>
+							</div>
+							<div class="info-content">
+								<h4>图书馆账号</h4>
+								<p id="library-status">未绑定</p>
+							</div>
+						</div>
+						<div class="info-item">
+							<div class="info-icon">
+								<i class="bi bi-credit-card"></i>
+							</div>
+							<div class="info-content">
+								<h4>校园一卡通</h4>
+								<p id="campus-card-status">未绑定</p>
+							</div>
+						</div>
+					</div>
+				</aside>
+
+				<div class="content-area">
+					<div class="card">
+						<div class="card-header">
+							<h3 class="card-title">快捷入口</h3>
+							<a href="#" class="card-more">更多 <i class="bi bi-chevron-right"></i></a>
+						</div>
+						<div class="quick-links">
+							<a href="class.html" class="link-item">
+								<div class="link-icon">
+									<i class="bi bi-journal-bookmark"></i>
+								</div>
+								<span class="link-title">查看课程</span>
+							</a>
+							<a class="link-item" href="course.html">
+								<div class="link-icon">
+									<i class="bi bi-calendar-week"></i>
+								</div>
+								<span class="link-title">查看课表</span>
+							</a>
+							<a href="https://api.map.baidu.com/lbsapi/getpoint/index.html" class="link-item">
+								<div class="link-icon">
+									<i class="bi bi-file-earmark-text"></i>
+								</div>
+								<span class="link-title">坐标拾取</span>
+							</a>
+							<a href="setting.php" class="link-item">
+								<div class="link-icon">
+									<i class="bi bi-chat-square-text"></i>
+								</div>
+								<span class="link-title">签到设置</span>
+							</a>
+						</div>
+					</div>
+					<!-- 任务面板 -->
+					<div class="card">
+						<div class="card-header">
+							<h3 class="card-title">自动签到任务脚本</h3>
+							<a href="#" class="card-more">完整日志 <i class="bi bi-chevron-right"></i></a>
+						</div>
+						<div class="task-controls">
+							<button id="toggleTaskBtn" class="task-btn start-btn">
+								<i class="bi bi-play-fill"></i> 启动任务
+							</button>
+							<button id="clearLogsBtn" class="task-btn">
+								<i class="bi bi-trash"></i> 清空日志
+							</button>
+						</div>
+						<div class="task-status" id="taskStatusDisplay"></div>
+					</div>
+				</div>
+			</div>
+			<div id="modal-overlay" class="modal-overlay">
+				<div class="modal-container">
+					<div class="modal-header">
+						<h3 class="modal-title">提示</h3>
+						<button class="modal-close">&times;</button>
+					</div>
+					<div class="modal-content">
+						<div class="modal-icon">
+							<i class="bi"></i>
+						</div>
+						<p id="modal-message">确认执行此操作吗？</p>
+					</div>
+					<div class="modal-footer">
+						<button class="modal-btn modal-btn-cancel">取消</button>
+						<button class="modal-btn modal-btn-confirm">确认</button>
+					</div>
+				</div>
+			</div>
+			<footer>
+				<p>© 2025 我们不生产水我们只做大自然的搬运工 - 版权所有</p>
+			</footer>
+		</div>
+		<script src="scipt/home.js"></script>
+	</body>
+</html>

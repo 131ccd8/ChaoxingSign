@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>我的课程表</title>
+		<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700&display=swap"
+			rel="stylesheet">
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+		<link rel="stylesheet" href="css/course.css">
+	</head>
+	<body>
+		<div class="container">
+			<header>
+				<div class="header-info">
+					<h1>我的课程表</h1>
+					<p id="week-info">加载中...</p>
+				</div>
+				<div class="view-controls">
+					<button class="view-btn active" id="grid-view-btn">
+						<i class="bi bi-grid-3x3-gap"></i> 表格视图
+					</button>
+					<button class="view-btn" id="list-view-btn">
+						<i class="bi bi-list-ul"></i> 列表视图
+					</button>
+				</div>
+			</header>
+
+			<div class="week-nav">
+				<div class="week-title" id="week-title">加载中...</div>
+				<div class="week-arrows">
+					<button class="week-arrow" id="prev-week">
+						<i class="bi bi-chevron-left"></i>
+					</button>
+					<select class="week-select" id="week-select">
+						<option value="">加载中...</option>
+					</select>
+					<button class="week-arrow" id="next-week">
+						<i class="bi bi-chevron-right"></i>
+					</button>
+				</div>
+			</div>
+
+			<div id="timetable-view">
+				<div class="timetable">
+					<div class="timetable-header">
+						<div class="timetable-header-cell">时间</div>
+						<div class="timetable-header-cell">周一</div>
+						<div class="timetable-header-cell">周二</div>
+						<div class="timetable-header-cell">周三</div>
+						<div class="timetable-header-cell">周四</div>
+						<div class="timetable-header-cell">周五</div>
+					</div>
+					<div class="timetable-body" id="timetable-body">
+						<!-- 课程内容将通过JavaScript动态加载 -->
+						<div class="loading">
+							<div class="spinner"></div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="list-view" id="list-view">
+				<div class="loading">
+					<div class="spinner"></div>
+				</div>
+			</div>
+		</div>
+		<script src="scipt/course.js"></script>
+	</body>
+</html>

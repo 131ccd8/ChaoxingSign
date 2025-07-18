@@ -22,6 +22,7 @@
 
 - 环境要求（Windows,Linux待测）
 - PHP >= 7.4
+- 工具可选（phpstudy，宝塔windows面板）
 - 创建空白网站，关闭防跨站攻击
 - 将源码解压到根目录即可
 - 访问 http://your_ip/

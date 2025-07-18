@@ -121,6 +121,7 @@ $courses = $config->get('courses') ?: [];
                         <h1 class="card-title text-center">
                             <i class="bi bi-book"></i> 课程签到配置
                         </h1>
+						<a href="https://github.com/131ccd8/" style="display: block;text-align: center;">© 2025 Copy Right Github 糕手</a>
                     </div>
                 </div>
             </div>

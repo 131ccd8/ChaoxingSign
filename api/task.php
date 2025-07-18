@@ -229,8 +229,8 @@ class ChaoXingSigner
 		\$currentTime2 = date('i');
 		// 从配置中获取课程时间
 		
-		\$currentTime1 = '14';
-		\$currentTime2 = 29;
+		// \$currentTime1 = '14';
+		// \$currentTime2 = 29;
 		
 		if(\$matchedData['name'] === "课程教学示例" || (\$currentTime1 === \$times[0] && abs(\$currentTime2 - \$times[1]) <= 3)){
 			
